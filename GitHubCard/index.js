@@ -2,16 +2,36 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// Make a request for a user with a given ID
+axios.get('https://api.github.com/users/B-Griffinn')
+.then((response) => {
+  //handle success
+  console.log(response);
+  /* Step 4: Pass the data received from Github into your function, 
+           create a new component and add it to the DOM as a child of .cards
+*/
+// response.data.login.forEach(item => {
+//   let newGitCard = new createGitCard(item);
+//   entryPoint.appendChild(newGitCard);
+  response.data.forEach(item => {
+    let newGitCard = createGitCard(item);
+    card.appendChild(newGitCard);
+  }) // END passing data to function
+}) //END .then 
+.catch(function (error) {
+  //handle error
+  console.log(`This is where the error should go ${error}`);
+})
+.finally(function () {
+    //always executed
+})
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
 
    Skip to Step 3.
-*/
-
-/* Step 4: Pass the data received from Github into your function, 
-           create a new component and add it to the DOM as a child of .cards
 */
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
@@ -24,7 +44,12 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['RichardEsquivel', 'djones36', 'greenhornsr', 'tetondan', 'bigknell'];
+followersArray.forEach(item => {
+  let addUsers = createGitCard(item);
+  card.appendChild(addUsers);
+}) // END passing data to function
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -43,8 +68,49 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+function createGitCard(obj){
+//define our elements
+//create the cards
+let card = document.createElement('div');
+let userImg = document.createElement('img');
+let cardInfo = document.createElement('div');
+let name = document.createElement('h3');
+let userName = document.createElement('p');
+let location = document.createElement('p');
+let profile = document.createElement('p');
+let gitAddress = document.createElement('a');
+let followers = document.createElement('p');
+let following = document.createElement('p');
+let bio = document.createElement('p');
+
+//set class name(s)
+card.classList.add('card')
+cardInfo.classList.add('card-info')
+name.classList.add('name')
+userName.classList.add('username')
+
+// setup structure aka append
+card.appendChild(userImg)
+card.appendChild(cardInfo)
+cardInfo.appendChild(name)
+cardInfo.appendChild(userName)
+cardInfo.appendChild(location)
+cardInfo.appendChild(profile)
+profile.appendChild(gitAddress)
+cardInfo.appendChild(followers)
+cardInfo.appendChild(following)
+cardInfo.appendChild(bio)
+
+//returning the parent
+return card;
+}// end createGitCard function
+
+
+
+
+
+
 
 /* List of LS Instructors Github username's: 
   tetondan
