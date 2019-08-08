@@ -7,14 +7,16 @@ axios.get('https://api.github.com/users/B-Griffinn')
 .then((response) => {
   //handle success
   console.log(response);
+
   /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
 // response.data.login.forEach(item => {
 //   let newGitCard = new createGitCard(item);
 //   entryPoint.appendChild(newGitCard);
   response.data.forEach(item => {
-    let newGitCard = createGitCard(item);
+    let newGitCard = new createGitCard(item);
     card.appendChild(newGitCard);
   }) // END passing data to function
 }) //END .then 
@@ -22,9 +24,9 @@ axios.get('https://api.github.com/users/B-Griffinn')
   //handle error
   console.log(`This is where the error should go ${error}`);
 })
-.finally(function () {
-    //always executed
-})
+// .finally(function() {
+//     //always executed
+// })
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -44,11 +46,21 @@ axios.get('https://api.github.com/users/B-Griffinn')
           user, and adding that card to the DOM.
 */
 
-const followersArray = ['RichardEsquivel', 'djones36', 'greenhornsr', 'tetondan', 'bigknell'];
-followersArray.forEach(item => {
-  let addUsers = createGitCard(item);
-  card.appendChild(addUsers);
-}) // END passing data to function
+const followersArray = ['swheatley', 'esmitley', 'landon1013', 'trwhatcott', 'theMultitude'];
+axios.get('https://api.github.com/users/bigknell/followers')
+.then(response => {
+  console.log(response);
+  response.data.forEach(currItem => {
+    let follower = new createGitCard(currItem);
+    card.appendChild(follower);
+  })
+  .catch(err => {
+    // console.log(err);
+  })
+  .finally(function (){
+    //this always executes
+  })
+})
 
 
 /* Step 3: Create a function that accepts a single object as its only argument,
@@ -89,6 +101,9 @@ card.classList.add('card')
 cardInfo.classList.add('card-info')
 name.classList.add('name')
 userName.classList.add('username')
+
+//text content
+bio.textContent = `Bio: ${card.bio || "This user has no bio."}`; //Stretch?
 
 // setup structure aka append
 card.appendChild(userImg)
