@@ -3,6 +3,11 @@
            https://api.github.com/users/<your name>
 */
 // Make a request for a user with a given ID
+
+//request to main div .cards
+let mainCard = document.querySelector('.cards');
+
+
 axios.get('https://api.github.com/users/B-Griffinn')
 .then((response) => {
   //handle success
@@ -11,14 +16,14 @@ axios.get('https://api.github.com/users/B-Griffinn')
   /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
-
+mainCard.appendChild(createGitCard(response.data))
 // response.data.login.forEach(item => {
 //   let newGitCard = new createGitCard(item);
 //   entryPoint.appendChild(newGitCard);
-  response.data.forEach(item => {
-    let newGitCard = new createGitCard(item);
-    card.appendChild(newGitCard);
-  }) // END passing data to function
+  // response.data.forEach(item => {
+  //   let newGitCard = new createGitCard(item);
+  //   card.appendChild(newGitCard);
+  // }) // END passing data to function
 }) //END .then 
 .catch(function (error) {
   //handle error
@@ -47,21 +52,15 @@ axios.get('https://api.github.com/users/B-Griffinn')
 */
 
 const followersArray = ['swheatley', 'esmitley', 'landon1013', 'trwhatcott', 'theMultitude'];
-axios.get('https://api.github.com/users/bigknell/followers')
-.then(response => {
-  console.log(response);
-  response.data.forEach(currItem => {
-    let follower = new createGitCard(currItem);
-    card.appendChild(follower);
-  })
-  .catch(err => {
-    // console.log(err);
-  })
-  .finally(function (){
-    //this always executes
-  })
-})
 
+let ourLoop = followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+  .then((response) => {
+    mainCard.appendChild(createGitCard(response.data))
+    console.log(response)
+  })
+});
+  
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
