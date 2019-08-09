@@ -4,8 +4,7 @@
 */
 // Make a request for a user with a given ID
 
-//request to main div .cards
-let mainCard = document.querySelector('.cards');
+
 
 
 axios.get('https://api.github.com/users/B-Griffinn')
@@ -17,13 +16,6 @@ axios.get('https://api.github.com/users/B-Griffinn')
            create a new component and add it to the DOM as a child of .cards
 */
 mainCard.appendChild(createGitCard(response.data))
-// response.data.login.forEach(item => {
-//   let newGitCard = new createGitCard(item);
-//   entryPoint.appendChild(newGitCard);
-  // response.data.forEach(item => {
-  //   let newGitCard = new createGitCard(item);
-  //   card.appendChild(newGitCard);
-  // }) // END passing data to function
 }) //END .then 
 .catch(function (error) {
   //handle error
@@ -50,6 +42,9 @@ mainCard.appendChild(createGitCard(response.data))
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+
+//request to main div .cards
+let mainCard = document.querySelector('.cards');
 
 const followersArray = ['swheatley', 'esmitley', 'landon1013', 'trwhatcott', 'theMultitude'];
 
@@ -80,50 +75,69 @@ let ourLoop = followersArray.forEach(user => {
   </div>
 </div>
 */
+
 function createGitCard(obj){
-//define our elements
-//create the cards
-let card = document.createElement('div');
-let userImg = document.createElement('img');
-let cardInfo = document.createElement('div');
-let name = document.createElement('h3');
-let userName = document.createElement('p');
-let location = document.createElement('p');
-let profile = document.createElement('p');
-let gitAddress = document.createElement('a');
-let followers = document.createElement('p');
-let following = document.createElement('p');
-let bio = document.createElement('p');
+  //define our elements
+  //create the cards
+  let card = document.createElement('div');
+  let userImg = document.createElement('img');
+  let cardInfo = document.createElement('div');
+  let name = document.createElement('h3');
+  let userName = document.createElement('p');
+  let location = document.createElement('p');
+  let profile = document.createElement('p');
+  let gitAddress = document.createElement('a');
+  let followers = document.createElement('p');
+  let following = document.createElement('p');
+  let bio = document.createElement('p');
 
-//set class name(s)
-card.classList.add('card')
-cardInfo.classList.add('card-info')
-name.classList.add('name')
-userName.classList.add('username')
+  //set class name(s)
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  userName.classList.add('username')
 
-//text content
-bio.textContent = `Bio: ${card.bio || "This user has no bio."}`; //Stretch?
+  //text content
+  gitAddress.setAttribute('href', '#');
+  gitAddress.textContent = obj.url;
+  
+  bio.textContent = `Bio: ${obj.bio || "This user has no bio."}`;
+  bio.style.fontWeight = 'bold';
 
-// setup structure aka append
-card.appendChild(userImg)
-card.appendChild(cardInfo)
-cardInfo.appendChild(name)
-cardInfo.appendChild(userName)
-cardInfo.appendChild(location)
-cardInfo.appendChild(profile)
-profile.appendChild(gitAddress)
-cardInfo.appendChild(followers)
-cardInfo.appendChild(following)
-cardInfo.appendChild(bio)
+  userImg.src = obj.avatar_url;
 
-//returning the parent
-return card;
+  name.textContent = `${obj.name || "No Name Given."}`;
+
+  userName.textContent = `${obj.login}`;
+  userName.style.fontWeight = 'bold';
+
+  location.textContent = `Location: ${obj.location || "You do not need to know where I live."}`;
+  location.style.fontWeight = 'bold';
+
+  profile.textContent = `Profile:`;
+  profile.style.fontWeight = 'bold';
+
+  followers.textContent = `Followers: ${obj.followers}`;
+  followers.style.fontWeight = 'bold';
+
+  following.textContent = `Following: ${obj.following}`;
+  following.style.fontWeight = 'bold';
+
+  // setup structure aka append
+  card.appendChild(userImg)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  profile.appendChild(gitAddress)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+
+  //returning the parent
+  return card;
 }// end createGitCard function
-
-
-
-
-
 
 
 /* List of LS Instructors Github username's: 
